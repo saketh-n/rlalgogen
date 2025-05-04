@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import AlgorithmCard from './AlgorithmCard';
-import { defaultContent } from '../constants/content';
+import { getRandomCardContent } from '../utils/cardUtils';
 
 interface ModelComparisonProps {
   models: string[];
@@ -38,15 +38,18 @@ const ModelComparison = ({ models }: ModelComparisonProps) => {
       <div className="grid grid-cols-3 gap-8">
         {models.map(model => (
           <div key={model} className="flex flex-col items-center space-y-4">
-            {visibleCards[model].map(index => (
-              <AlgorithmCard 
-                key={`${model}-${index}`} 
-                compact={true}
-                title={defaultContent.title}
-                description={defaultContent.description}
-                pseudocode={defaultContent.pseudocode}
-              />
-            ))}
+            {visibleCards[model].map(index => {
+              const content = getRandomCardContent();
+              return (
+                <AlgorithmCard 
+                  key={`${model}-${index}`} 
+                  compact={true}
+                  title={content.title}
+                  description={content.description}
+                  pseudocode={content.pseudocode}
+                />
+              );
+            })}
           </div>
         ))}
       </div>

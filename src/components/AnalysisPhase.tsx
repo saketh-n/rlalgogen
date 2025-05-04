@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import ProgressCard from './ProgressCard';
-import { models, defaultContent } from '../constants/content';
+import { models } from '../constants/content';
+import { getRandomCardContent } from '../utils/cardUtils';
 
 const TOTAL_CARDS = 12;
 const CARD_DURATION = 3000;
@@ -9,6 +10,7 @@ const PROGRESS_DURATION = 2700; // Slightly faster than card duration
 const AnalysisPhase = () => {
   const [currentCard, setCurrentCard] = useState(0);
   const [progress, setProgress] = useState(0);
+  const [content, setContent] = useState(getRandomCardContent());
 
   useEffect(() => {
     const progressInterval = setInterval(() => {
@@ -18,6 +20,7 @@ const AnalysisPhase = () => {
     const cardInterval = setInterval(() => {
       setCurrentCard(prev => (prev + 1) % TOTAL_CARDS);
       setProgress(0);
+      setContent(getRandomCardContent());
     }, CARD_DURATION);
 
     return () => {
@@ -35,9 +38,9 @@ const AnalysisPhase = () => {
             <h2 className="text-xl font-semibold text-gray-300 mb-4">{model}</h2>
             <ProgressCard 
               progress={progress} 
-              title={defaultContent.title}
-              description={defaultContent.description}
-              pseudocode={defaultContent.pseudocode}
+              title={content.title}
+              description={content.description}
+              pseudocode={content.pseudocode}
             />
           </div>
         ))}

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import ProgressCard from './ProgressCard';
-import { defaultContent } from '../constants/content';
+import { getRandomCardContent } from '../utils/cardUtils';
 
 const TOTAL_CARDS = 3;
 const CARD_DURATION = 3000;
@@ -9,6 +9,7 @@ const PROGRESS_DURATION = 2700; // Slightly faster than card duration
 const BenchmarkPhase = () => {
   const [currentCard, setCurrentCard] = useState(0);
   const [progress, setProgress] = useState(0);
+  const [content, setContent] = useState(getRandomCardContent());
 
   useEffect(() => {
     const progressInterval = setInterval(() => {
@@ -18,6 +19,7 @@ const BenchmarkPhase = () => {
     const cardInterval = setInterval(() => {
       setCurrentCard(prev => (prev + 1) % TOTAL_CARDS);
       setProgress(0);
+      setContent(getRandomCardContent());
     }, CARD_DURATION);
 
     return () => {
@@ -32,9 +34,9 @@ const BenchmarkPhase = () => {
       <div className="w-full max-w-xl">
         <ProgressCard 
           progress={progress} 
-          title={defaultContent.title}
-          description={defaultContent.description}
-          pseudocode={defaultContent.pseudocode}
+          title={content.title}
+          description={content.description}
+          pseudocode={content.pseudocode}
         />
       </div>
     </div>

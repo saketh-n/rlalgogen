@@ -1,0 +1,104 @@
+{
+  "elements": [
+    {
+      "title": "PPO with Adaptive Learning",
+      "description": "Enhanced Proximal Policy Optimization algorithm that dynamically adjusts learning rates based on policy gradient variance for more stable training in continuous action spaces.",
+      "pseudocode": "function train(env, policy, value_fn):\n  for epoch in EPOCHS:\n    trajectories = collect_trajectories(env, policy)\n    advantages = compute_gae(trajectories, value_fn)\n    for _ in TRAIN_ITERS:\n      ratio = new_policy / old_policy\n      clip_obj = min(ratio * advantages, clip(ratio, 0.8, 1.2) * advantages)\n      loss = -mean(clip_obj) + value_coef * value_loss\n      optimize(loss)"
+    },
+    {
+      "title": "Hierarchical DQN",
+      "description": "Multi-level deep Q-network that decomposes complex tasks into hierarchical subtasks, enabling better exploration and skill transfer in challenging environments.",
+      "pseudocode": "function train(env, meta_policy, sub_policies):\n  for episode in EPISODES:\n    goal = meta_policy.select_goal(state)\n    while not done:\n      sub_policy = select_sub_policy(goal)\n      action = sub_policy.get_action(state)\n      next_state, reward = env.step(action)\n      update_policies(reward, goal)"
+    },
+    {
+      "title": "Curiosity-Driven Exploration",
+      "description": "Novel approach that uses prediction error of a forward dynamics model as an intrinsic reward signal to drive exploration in sparse reward environments.",
+      "pseudocode": "function train(env, policy, forward_model):\n  for step in STEPS:\n    action = policy.sample(state)\n    next_state = env.step(action)\n    pred_next = forward_model.predict(state, action)\n    intrinsic_reward = |pred_next - next_state|\n    total_reward = extrinsic_reward + beta * intrinsic_reward\n    update_policy(total_reward)"
+    },
+    {
+      "title": "Multi-Agent DDPG",
+      "description": "Distributed deep deterministic policy gradient algorithm adapted for cooperative multi-agent scenarios with shared experience replay and centralized critic.",
+      "pseudocode": "function train(env, agents, critic):\n  for episode in EPISODES:\n    for agent in agents:\n      action = agent.act(observation)\n      next_obs, reward = env.step(actions)\n      critic_value = critic(all_obs, all_actions)\n      update_agent(reward, critic_value)"
+    },
+    {
+      "title": "Meta-Learning RL",
+      "description": "Algorithm that learns to learn, adapting quickly to new tasks by leveraging experience across a distribution of related RL problems.",
+      "pseudocode": "function meta_train(task_distribution):\n  for task in sample_tasks():\n    theta = init_params()\n    for step in ADAPTATION_STEPS:\n      trajectories = collect_data(task, theta)\n      loss = compute_meta_loss(trajectories)\n      theta = adapt_params(loss, theta)\n    meta_update(theta)"
+    },
+    {
+      "title": "Distributional Q-Learning",
+      "description": "Learns full distribution of returns instead of just expected values, enabling better risk-aware decision making and exploration.",
+      "pseudocode": "function train(env, q_dist):\n  for step in STEPS:\n    action = sample_from_distribution(q_dist)\n    next_state, reward = env.step(action)\n    target_dist = compute_target_distribution(reward)\n    loss = wasserstein_distance(q_dist, target_dist)\n    update_network(loss)"
+    },
+    {
+      "title": "Hindsight Experience Replay",
+      "description": "Technique that retroactively relabels failed trajectories with achieved goals, dramatically improving sample efficiency in goal-conditioned tasks.",
+      "pseudocode": "function train(env, policy):\n  for episode in EPISODES:\n    goal = sample_goal()\n    trajectory = collect_trajectory(goal)\n    achieved = get_final_state(trajectory)\n    store_experience(trajectory, goal)\n    store_experience(trajectory, achieved)\n    update_policy()"
+    },
+    {
+      "title": "Evolutionary Policy Gradient",
+      "description": "Hybrid approach combining evolutionary strategies with policy gradients for better exploration in sparse reward settings.",
+      "pseudocode": "function train(env, population):\n  for generation in GENERATIONS:\n    rewards = evaluate_population()\n    grads = compute_policy_gradients()\n    mutations = generate_mutations()\n    new_pop = select_and_merge(grads, mutations)\n    update_population(new_pop)"
+    },
+    {
+      "title": "Offline RL with Uncertainty",
+      "description": "Conservative Q-learning approach for offline RL that penalizes actions with high uncertainty in the learned dynamics model.",
+      "pseudocode": "function train(dataset, q_fn, dynamics):\n  for batch in dataset:\n    pred, uncertainty = dynamics.predict(state, action)\n    conservative_q = q_value - alpha * uncertainty\n    target = reward + gamma * conservative_q\n    update_networks(target)"
+    },
+    {
+      "title": "Attention-Based Policy",
+      "description": "Uses transformer architecture to process state observations, enabling better handling of variable-length inputs and complex dependencies.",
+      "pseudocode": "function forward(state_sequence):\n  tokens = encode_states(state_sequence)\n  attention_weights = compute_attention(tokens)\n  context = aggregate_context(tokens, weights)\n  action_dist = policy_head(context)\n  return sample_action(action_dist)"
+    },
+    {
+      "title": "Model-Based Planning",
+      "description": "Combines learned dynamics model with Monte Carlo Tree Search for efficient planning and exploration.",
+      "pseudocode": "function plan(state, model, policy):\n  for simulation in MCTS_SIMS:\n    trajectory = [state]\n    while not done:\n      actions = model.predict_next(state)\n      action = select_action(policy, actions)\n      trajectory.append(action)\n    backpropagate_value(trajectory)"
+    },
+    {
+      "title": "Inverse RL",
+      "description": "Learns reward function from expert demonstrations, enabling imitation learning in environments without explicit rewards.",
+      "pseudocode": "function learn_reward(expert_demos, policy):\n  for iteration in ITERS:\n    policy_trajs = collect_trajectories(policy)\n    expert_features = extract_features(expert_demos)\n    policy_features = extract_features(policy_trajs)\n    update_reward(expert_features, policy_features)"
+    },
+    {
+      "title": "Safe RL with Constraints",
+      "description": "Incorporates safety constraints into policy optimization to ensure learned behaviors satisfy safety requirements.",
+      "pseudocode": "function safe_update(policy, constraints):\n  for step in STEPS:\n    action = policy.sample(state)\n    constraint_values = evaluate_constraints(state)\n    if violates_constraints(constraint_values):\n      action = project_to_safe(action)\n    update_policy(reward, constraint_values)"
+    },
+    {
+      "title": "Ensemble Policy Learning",
+      "description": "Maintains ensemble of policies for robust performance and uncertainty estimation in stochastic environments.",
+      "pseudocode": "function train_ensemble(env, policies):\n  for policy in policies:\n    trajectory = collect_data(policy)\n    bootstrap_data = sample_bootstrap(trajectory)\n    value = estimate_value(bootstrap_data)\n    update_policy(value)\n  aggregate_predictions(policies)"
+    },
+    {
+      "title": "Graph Neural Policy",
+      "description": "Uses graph neural networks to process structured state representations, enabling better generalization across similar environment configurations.",
+      "pseudocode": "function process_state(graph_state):\n  node_features = update_node_embeddings(graph_state)\n  edge_features = message_passing(node_features)\n  global_features = aggregate_graph(node_features)\n  return policy_head(global_features)"
+    },
+    {
+      "title": "Memory-Augmented RL",
+      "description": "Enhances policy network with external memory for handling partially observable environments and long-term dependencies.",
+      "pseudocode": "function forward(observation, memory):\n  query = encode_observation(observation)\n  retrieved = access_memory(query, memory)\n  combined = concat(observation, retrieved)\n  action = policy_head(combined)\n  memory = update_memory(memory, observation)"
+    },
+    {
+      "title": "Multi-Task Policy Distillation",
+      "description": "Compresses multiple task-specific policies into a single network while preserving performance through knowledge distillation.",
+      "pseudocode": "function distill(teacher_policies, student):\n  for task in tasks:\n    teacher = select_teacher(task)\n    student_pred = student.forward(state)\n    teacher_pred = teacher.forward(state)\n    loss = kl_divergence(student_pred, teacher_pred)\n    update_student(loss)"
+    },
+    {
+      "title": "Adversarial Policy Learning",
+      "description": "Trains policies to be robust against adversarial perturbations in the environment, improving generalization to unseen conditions.",
+      "pseudocode": "function train(env, policy, adversary):\n  for episode in EPISODES:\n    perturb = adversary.generate(state)\n    action = policy.act(state + perturb)\n    value = evaluate_robust(action)\n    update_policy(value)\n    update_adversary()"
+    },
+    {
+      "title": "Curriculum Learning RL",
+      "description": "Progressively increases task difficulty based on agent's performance, enabling efficient learning of complex behaviors.",
+      "pseudocode": "function train_curriculum(env, policy):\n  difficulty = init_difficulty()\n  for episode in EPISODES:\n    task = sample_task(difficulty)\n    performance = train_episode(task)\n    if success_threshold_met(performance):\n      difficulty = increase_difficulty()\n    update_policy(performance)"
+    },
+    {
+      "title": "Energy-Based RL",
+      "description": "Uses energy functions to learn policies, providing better uncertainty estimates and more stable training in complex environments.",
+      "pseudocode": "function train(env, energy_fn):\n  for step in STEPS:\n    state_energy = compute_energy(state)\n    action = sample_langevin(energy_fn)\n    next_state, reward = env.step(action)\n    energy_grad = compute_gradient(state, action)\n    update_energy_fn(energy_grad)"
+    }
+  ]
+} 
